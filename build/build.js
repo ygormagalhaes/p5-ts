@@ -128,5 +128,23 @@ function windowResized() {
 function draw() {
     background(0);
     new Grid(20, 20).draw();
+    new Tree().draw();
 }
+var Tree = (function () {
+    function Tree() {
+        this.yDistance = 200;
+        this.xDistance = 200;
+    }
+    Tree.prototype.draw = function () {
+        push();
+        fill(color(255, 0, 0));
+        for (var yPoint = this.yDistance; yPoint < height; yPoint += this.yDistance) {
+            for (var xPoint = this.xDistance; xPoint < width; xPoint += this.xDistance) {
+                circle(xPoint, yPoint, 5);
+            }
+        }
+        pop();
+    };
+    return Tree;
+}());
 //# sourceMappingURL=build.js.map
