@@ -26,8 +26,7 @@ class Tree {
         this.pointMap.forEach(outerLine => {
             outerLine.forEach(point => {
                 this.pointMap.forEach(innerLine => innerLine.forEach(secondPoint => line(point.xPoint, point.yPoint, secondPoint.xPoint, secondPoint.yPoint)));
-                // circle(point.xPoint, point.yPoint, 10);
-            })
-        })
+            });
+        });
     }
 }
