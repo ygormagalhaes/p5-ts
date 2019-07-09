@@ -134,16 +134,30 @@ var Tree = (function () {
     function Tree() {
         this.yDistance = 200;
         this.xDistance = 200;
+        this.pointMap = [];
     }
     Tree.prototype.draw = function () {
         push();
         fill(color(255, 0, 0));
-        for (var yPoint = this.yDistance; yPoint < height; yPoint += this.yDistance) {
+        var line = 0;
+        for (var yPoint = this.yDistance; yPoint < height; yPoint += this.yDistance, line++) {
+            this.pointMap[line] = [];
             for (var xPoint = this.xDistance; xPoint < width; xPoint += this.xDistance) {
-                circle(xPoint, yPoint, 5);
+                this.pointMap[line].push({ xPoint: xPoint, yPoint: yPoint });
+                circle(xPoint, yPoint, 10);
             }
         }
+        this.drawLines();
         pop();
+    };
+    Tree.prototype.drawLines = function () {
+        var _this = this;
+        stroke(color(0, 255, 0, 10));
+        this.pointMap.forEach(function (outerLine) {
+            outerLine.forEach(function (point) {
+                _this.pointMap.forEach(function (innerLine) { return innerLine.forEach(function (secondPoint) { return line(point.xPoint, point.yPoint, secondPoint.xPoint, secondPoint.yPoint); }); });
+            });
+        });
     };
     return Tree;
 }());
