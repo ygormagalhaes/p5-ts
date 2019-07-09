@@ -1,8 +1,6 @@
 let morph: Morph;
 function setup() {
     createCanvas(windowWidth, windowHeight)
-    morph = new Morph();
-    morph.setup();
 }
 
 function windowResized() {
@@ -10,6 +8,6 @@ function windowResized() {
 }
 
 function draw() {
-    background(100);
-    morph.draw();
+    background(0);
+    new Grid(20, 20).draw();
 }

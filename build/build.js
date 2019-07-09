@@ -1,3 +1,28 @@
+var Grid = (function () {
+    function Grid(xDistance, yDistance) {
+        this.xDistance = xDistance;
+        this.yDistance = yDistance;
+    }
+    Grid.prototype.draw = function () {
+        push();
+        strokeWeight(1);
+        stroke(color(0, 255, 0, 10));
+        this.drawVerticalLines();
+        this.drawHorizontalLines();
+        pop();
+    };
+    Grid.prototype.drawVerticalLines = function () {
+        for (var xPoint = this.xDistance; xPoint < width; xPoint += this.xDistance) {
+            line(xPoint, 0, xPoint, height);
+        }
+    };
+    Grid.prototype.drawHorizontalLines = function () {
+        for (var yPoint = this.yDistance; yPoint < height; yPoint += this.yDistance) {
+            line(0, yPoint, width, yPoint);
+        }
+    };
+    return Grid;
+}());
 var Morph = (function () {
     function Morph() {
     }
@@ -96,14 +121,12 @@ var Shapes = (function () {
 var morph;
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    morph = new Morph();
-    morph.setup();
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 function draw() {
-    background(100);
-    morph.draw();
+    background(0);
+    new Grid(20, 20).draw();
 }
 //# sourceMappingURL=build.js.map
