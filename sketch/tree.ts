@@ -15,18 +15,20 @@ class Tree {
         for (let yPoint = this.yDistance; yPoint < height; yPoint += this.yDistance, line++) {
             this.pointMap[line] = [];
             for (let xPoint = this.xDistance; xPoint < width; xPoint += this.xDistance) {
-                this.pointMap[line].push(this.deviatePoint({ xPoint, yPoint }));
+                this.pointMap[line].push({
+                    xPoint: line % 2 === 0 ? xPoint : xPoint - this.xDistance / 2,
+                    yPoint
+                });
+            }
+            if (line % 2 !== 0) {
+                this.pointMap[line].push({xPoint: width - this.xDistance / 2, yPoint});
             }
         }
     }
 
-    private deviatePoint(point: {xPoint: number, yPoint: number}) {
-        return { xPoint: point.xPoint + (random(-20, 20)), yPoint: point.yPoint + (random(-20, 20)) };
-    }
-
     @pushPop()
     private drawLines(): void {
-        stroke(color(255, 100, 100, 10));
+        stroke(color(0, 0, 255, 10));
         this.pointMap.forEach(outerLine => {
             outerLine.forEach(point => {
                 this.pointMap.forEach(innerLine => innerLine.forEach(secondPoint => {

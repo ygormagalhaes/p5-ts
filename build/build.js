@@ -1,15 +1,19 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var Grid = (function () {
     function Grid(xDistance, yDistance) {
         this.xDistance = xDistance;
         this.yDistance = yDistance;
     }
     Grid.prototype.draw = function () {
-        push();
         strokeWeight(1);
         stroke(color(0, 255, 0, 10));
         this.drawVerticalLines();
         this.drawHorizontalLines();
-        pop();
     };
     Grid.prototype.drawVerticalLines = function () {
         for (var xPoint = this.xDistance; xPoint < width; xPoint += this.xDistance) {
@@ -21,6 +25,9 @@ var Grid = (function () {
             line(0, yPoint, width, yPoint);
         }
     };
+    __decorate([
+        pushPop()
+    ], Grid.prototype, "draw", null);
     return Grid;
 }());
 var Morph = (function () {
@@ -126,12 +133,6 @@ function setup() {
 }
 function draw() {
 }
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 var Tree = (function () {
     function Tree() {
         this.yDistance = 100;
@@ -149,16 +150,19 @@ var Tree = (function () {
         for (var yPoint = this.yDistance; yPoint < height; yPoint += this.yDistance, line++) {
             this.pointMap[line] = [];
             for (var xPoint = this.xDistance; xPoint < width; xPoint += this.xDistance) {
-                this.pointMap[line].push(this.deviatePoint({ xPoint: xPoint, yPoint: yPoint }));
+                this.pointMap[line].push({
+                    xPoint: line % 2 === 0 ? xPoint : xPoint - this.xDistance / 2,
+                    yPoint: yPoint
+                });
+            }
+            if (line % 2 !== 0) {
+                this.pointMap[line].push({ xPoint: width - this.xDistance / 2, yPoint: yPoint });
             }
         }
     };
-    Tree.prototype.deviatePoint = function (point) {
-        return { xPoint: point.xPoint + (random(-20, 20)), yPoint: point.yPoint + (random(-20, 20)) };
-    };
     Tree.prototype.drawLines = function () {
         var _this = this;
-        stroke(color(255, 100, 100, 10));
+        stroke(color(0, 0, 255, 10));
         this.pointMap.forEach(function (outerLine) {
             outerLine.forEach(function (point) {
                 _this.pointMap.forEach(function (innerLine) { return innerLine.forEach(function (secondPoint) {

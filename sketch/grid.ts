@@ -1,13 +1,12 @@
 class Grid {
     constructor(private xDistance: number, private yDistance: number) { }
 
+    @pushPop()
     draw(): void {
-        push();
         strokeWeight(1);
         stroke(color(0, 255, 0, 10));
         this.drawVerticalLines();
         this.drawHorizontalLines();
-        pop();
     }
 
     private drawVerticalLines() {
