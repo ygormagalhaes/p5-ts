@@ -9,11 +9,11 @@ function windowResized() {
 */
 
 function setup() {
-    createCanvas(800, 800)
+    createCanvas(1000, 1000);
+    background(0);
+    new Grid(10, 10).draw();
+    new Tree().draw();
 }
 
 function draw() {
-    background(0);
-    new Grid(20, 20).draw();
-    new Tree().draw();
 }

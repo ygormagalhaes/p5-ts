@@ -119,12 +119,12 @@ var Shapes = (function () {
     return Shapes;
 }());
 function setup() {
-    createCanvas(800, 800);
+    createCanvas(1000, 1000);
+    background(0);
+    new Grid(10, 10).draw();
+    new Tree().draw();
 }
 function draw() {
-    background(0);
-    new Grid(20, 20).draw();
-    new Tree().draw();
 }
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -136,35 +136,48 @@ var Tree = (function () {
     function Tree() {
         this.yDistance = 100;
         this.xDistance = 100;
+        this.pointRadius = 5;
         this.pointMap = [];
     }
     Tree.prototype.draw = function () {
-        fill(color(255, 0, 0));
+        this.createPointMap();
+        this.drawLines();
+        this.drawPoints();
+    };
+    Tree.prototype.createPointMap = function () {
         var line = 0;
         for (var yPoint = this.yDistance; yPoint < height; yPoint += this.yDistance, line++) {
             this.pointMap[line] = [];
             for (var xPoint = this.xDistance; xPoint < width; xPoint += this.xDistance) {
-                this.pointMap[line].push({ xPoint: xPoint, yPoint: yPoint });
-                circle(xPoint, yPoint, 10);
+                this.pointMap[line].push(this.deviatePoint({ xPoint: xPoint, yPoint: yPoint }));
             }
         }
-        this.drawLines();
+    };
+    Tree.prototype.deviatePoint = function (point) {
+        return { xPoint: point.xPoint + (random(-20, 20)), yPoint: point.yPoint + (random(-20, 20)) };
     };
     Tree.prototype.drawLines = function () {
         var _this = this;
-        stroke(color(0, 255, 0, 10));
+        stroke(color(255, 100, 100, 10));
         this.pointMap.forEach(function (outerLine) {
             outerLine.forEach(function (point) {
-                _this.pointMap.forEach(function (innerLine) { return innerLine.forEach(function (secondPoint) { return line(point.xPoint, point.yPoint, secondPoint.xPoint, secondPoint.yPoint); }); });
+                _this.pointMap.forEach(function (innerLine) { return innerLine.forEach(function (secondPoint) {
+                    line(point.xPoint, point.yPoint, secondPoint.xPoint, secondPoint.yPoint);
+                }); });
             });
         });
     };
-    __decorate([
-        pushPop()
-    ], Tree.prototype, "draw", null);
+    Tree.prototype.drawPoints = function () {
+        var _this = this;
+        fill(color(255, 0, 0));
+        this.pointMap.forEach(function (line) { return line.forEach(function (point) { return circle(point.xPoint, point.yPoint, _this.pointRadius); }); });
+    };
     __decorate([
         pushPop()
     ], Tree.prototype, "drawLines", null);
+    __decorate([
+        pushPop()
+    ], Tree.prototype, "drawPoints", null);
     return Tree;
 }());
 function pushPop() {
@@ -182,5 +195,8 @@ function pushPop() {
         };
         return propertyDescriptor;
     };
+}
+function randomColor(alpha) {
+    return color(random(0, 255), random(0, 255), random(0, 255), alpha);
 }
 //# sourceMappingURL=build.js.map
