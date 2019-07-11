@@ -118,26 +118,27 @@ var Shapes = (function () {
     };
     return Shapes;
 }());
-var morph;
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-}
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    createCanvas(800, 800);
 }
 function draw() {
     background(0);
     new Grid(20, 20).draw();
     new Tree().draw();
 }
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var Tree = (function () {
     function Tree() {
-        this.yDistance = 200;
-        this.xDistance = 200;
+        this.yDistance = 100;
+        this.xDistance = 100;
         this.pointMap = [];
     }
     Tree.prototype.draw = function () {
-        push();
         fill(color(255, 0, 0));
         var line = 0;
         for (var yPoint = this.yDistance; yPoint < height; yPoint += this.yDistance, line++) {
@@ -148,7 +149,6 @@ var Tree = (function () {
             }
         }
         this.drawLines();
-        pop();
     };
     Tree.prototype.drawLines = function () {
         var _this = this;
@@ -159,6 +159,28 @@ var Tree = (function () {
             });
         });
     };
+    __decorate([
+        pushPop()
+    ], Tree.prototype, "draw", null);
+    __decorate([
+        pushPop()
+    ], Tree.prototype, "drawLines", null);
     return Tree;
 }());
+function pushPop() {
+    return function (target, key, propertyDescriptor) {
+        var originalMethod = propertyDescriptor.value;
+        propertyDescriptor.value = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            push();
+            var result = originalMethod.apply(this, args);
+            pop();
+            return result;
+        };
+        return propertyDescriptor;
+    };
+}
 //# sourceMappingURL=build.js.map

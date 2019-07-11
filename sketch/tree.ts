@@ -1,11 +1,11 @@
 class Tree {
 
-    private readonly yDistance = 200;
-    private readonly xDistance = 200;
+    private readonly yDistance = 100;
+    private readonly xDistance = 100;
     private pointMap: any[][] = [];
 
+    @pushPop()
     draw(): void {
-        push();
         fill(color(255, 0, 0));
         let line = 0;
         for (let yPoint = this.yDistance; yPoint < height; yPoint+=this.yDistance, line++) {
@@ -18,9 +18,9 @@ class Tree {
 
         }
         this.drawLines();
-        pop();
     }
 
+    @pushPop()
     private drawLines(): void {
         stroke(color(0, 255, 0, 10));
         this.pointMap.forEach(outerLine => {

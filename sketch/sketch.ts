@@ -1,10 +1,15 @@
-let morph: Morph;
+/*
 function setup() {
     createCanvas(windowWidth, windowHeight)
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+}
+*/
+
+function setup() {
+    createCanvas(800, 800)
 }
 
 function draw() {
